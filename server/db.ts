@@ -14,6 +14,7 @@ import {
   EventRegistration,
   AirQualityReading,
   AirQualityDatasetMetadata,
+  VolunteerOpportunity,
 } from '../src/types/civic';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -51,6 +52,7 @@ export interface DatabaseStore {
   eventRegistrations: EventRegistration[];
   airQualityReadings?: AirQualityReading[];
   airQualityMetadata?: AirQualityDatasetMetadata;
+  volunteerOpportunities?: VolunteerOpportunity[];
 }
 
 const INITIAL_STAKEHOLDERS: Stakeholder[] = [
@@ -978,6 +980,41 @@ class Database {
       this.data.resources[idx] = resource;
     } else {
       this.data.resources.push(resource);
+    }
+    this.save();
+  }
+
+  // Volunteer Opportunities Methods
+  public getVolunteerOpportunities(filters?: { domain?: string; location?: string; limit?: number }): VolunteerOpportunity[] {
+    let list = this.data.volunteerOpportunities || [];
+    if (filters?.domain && filters.domain !== 'All' && filters.domain !== 'All Domains') {
+      const d = filters.domain.toLowerCase();
+      list = list.filter((o) => o.domain.toLowerCase().includes(d));
+    }
+    if (filters?.location && filters.location !== 'All') {
+      const loc = filters.location.toLowerCase();
+      list = list.filter((o) => o.location.toLowerCase().includes(loc));
+    }
+    if (filters?.limit && filters.limit > 0) {
+      list = list.slice(0, filters.limit);
+    }
+    return list;
+  }
+
+  public setVolunteerOpportunities(opportunities: VolunteerOpportunity[]): void {
+    this.data.volunteerOpportunities = opportunities;
+    this.save();
+  }
+
+  public addOrUpdateVolunteerOpportunity(opp: VolunteerOpportunity): void {
+    if (!this.data.volunteerOpportunities) {
+      this.data.volunteerOpportunities = [];
+    }
+    const idx = this.data.volunteerOpportunities.findIndex((o) => o.id === opp.id);
+    if (idx >= 0) {
+      this.data.volunteerOpportunities[idx] = opp;
+    } else {
+      this.data.volunteerOpportunities.push(opp);
     }
     this.save();
   }

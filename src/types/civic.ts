@@ -348,3 +348,30 @@ export interface AirQualityStatusResponse {
   ingestion_run?: IngestionRun;
 }
 
+export type VolunteerOpportunityType = 'published_event' | 'organization_opportunity' | 'ai_suggested_activity';
+export type VerificationStatus = 'verified_in_source' | 'ai_suggested_activity' | 'pending_verification';
+
+export interface VolunteerOpportunity {
+  id: string;
+  title: string;
+  description: string;
+  domain: string;
+  opportunityType: VolunteerOpportunityType;
+  location: string;
+  organizer: string;
+  startDate: string;
+  endDate?: string;
+  registrationUrl?: string;
+  sourceName: string;
+  sourceUrl: string;
+  sourcePublishedAt?: string;
+  retrievedAt: string;
+  verificationStatus: VerificationStatus;
+  registrationStatus: 'open' | 'closed' | 'full';
+  relevanceReason: string;
+  aiSummary: string;
+  lastVerifiedAt: string;
+  expiresAt: string;
+}
+
+

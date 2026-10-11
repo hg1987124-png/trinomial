@@ -312,29 +312,6 @@ export const IngestionAdminView: React.FC<IngestionAdminViewProps> = ({
               <span className="text-[10px] text-[#047857]/70 block">Deduplicated</span>
             </div>
           </div>
-
-          {/* Execution Logs */}
-          <div className="bg-white border border-[#047857]/20 rounded-xs p-5 shadow-2xs space-y-4">
-            <h3 className="text-xs font-bold text-[#047857] uppercase tracking-wider flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-[#047857]" />
-              <span>OpenCity Ingestion Execution Logs & Audit Trail</span>
-            </h3>
-
-            {recentOpenCityRun?.log_entries && recentOpenCityRun.log_entries.length > 0 ? (
-              <div className="bg-[#1e293b] text-emerald-400 p-4 rounded-xs font-mono text-xs space-y-1 overflow-x-auto max-h-64 no-scrollbar">
-                {recentOpenCityRun.log_entries.map((log, idx) => (
-                  <div key={idx} className="leading-relaxed">
-                    <span className="text-slate-500 mr-2">[{idx + 1}]</span>
-                    <span>{log}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-xs text-[#047857]/60 italic p-4 bg-[#fcfdfc] rounded-xs border border-[#047857]/10">
-                No active execution logs. Click "Ingest OpenCity Dataset" to trigger a run.
-              </div>
-            )}
-          </div>
         </div>
       )}
 

@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navItems: { id: ActiveTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'feed', label: 'Civic Discovery Feed', icon: Sparkles },
     { id: 'events', label: 'Civic Events & Volunteer', icon: Calendar },
-    { id: 'rag', label: 'RAG Evidence Q&A', icon: HelpCircle },
+    { id: 'rag', label: 'AI Civic Search', icon: Sparkles },
     { id: 'ingestion', label: 'Data Ingestion & Telemetry', icon: Database },
     { id: 'stakeholders', label: 'Stakeholders', icon: Shield },
     { id: 'collabs', label: 'Community Action', icon: Users },

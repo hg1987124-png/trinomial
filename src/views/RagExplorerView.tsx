@@ -59,9 +59,21 @@ const PRESET_QUERIES = [
 
 export const RagExplorerView: React.FC = () => {
   const [query, setQuery] = useState('');
+  const [selectedDomain, setSelectedDomain] = useState<string>('All Domains');
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<RagQueryResponse | null>(null);
+  const [liveSummary, setLiveSummary] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const DOMAINS = [
+    'All Domains',
+    'Water Supply',
+    'Sewerage & Drainage',
+    'Solid Waste Management',
+    'Public Sanitation & Toilets',
+    'Air Quality & Pollution',
+    'Roads & Infrastructure',
+  ];
 
   const handleSearch = async (queryText?: string) => {
     const q = (queryText || query).trim();
@@ -70,11 +82,15 @@ export const RagExplorerView: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await api.queryRag(q);
-      setResponse(res);
+      const [ragRes, liveRes] = await Promise.all([
+        api.queryRag(q),
+        api.liveDomainSearch(selectedDomain, q).catch(() => null),
+      ]);
+      setResponse(ragRes);
+      setLiveSummary(liveRes);
       setQuery(q);
     } catch (err: any) {
-      setError(err?.message || 'Failed to query RAG engine');
+      setError(err?.message || 'Failed to execute live domain web scraping and RAG query');
     } finally {
       setLoading(false);
     }
@@ -87,20 +103,47 @@ export const RagExplorerView: React.FC = () => {
         <div className="flex items-center gap-2">
           <BookOpen className="w-5 h-5 text-[#F97316]" />
           <span className="text-[10px] font-bold uppercase tracking-widest text-[#F97316]">
-            GENUINE RAG CIVIC INTELLIGENCE ENGINE
+            AI CIVIC SEARCH & PROBLEM ANALYSIS ENGINE
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-[#047857] tracking-tight">
-          Query Civic Audit Evidence & Real-Time Air Quality Telemetry
+          AI Civic Search & Problem Analysis across 6 Domains
         </h1>
         <p className="text-xs sm:text-sm text-[#047857]/80 max-w-4xl leading-relaxed">
-          Ask questions against 93 indexed pages from the <strong>Praja Foundation</strong> report on OpenCity India and continuous CAAQMS telemetry from the <strong>Central Pollution Control Board (CPCB)</strong> via India's Open Government Data (OGD) Platform.
-          Answers are strictly retrieved from real document passages and official monitoring records. If evidence is absent, the engine reports the limitation rather than fabricating facts.
+          Search across 6 official civic domains. The system automatically performs live website scraping, parses official audit datasets (OpenCity India & CPCB), and applies <strong>Gemini AI Search Grounding</strong> to generate accurate problem analysis, summaries, and verified source citations.
         </p>
       </div>
 
       {/* Query Input Box */}
       <div className="bg-white border border-[#047857]/15 rounded-xs p-5 shadow-2xs space-y-4">
+        {/* 6 Civic Domains Filter Bar */}
+        <div className="space-y-2 pb-3 border-b border-[#047857]/10">
+          <div className="flex items-center justify-between text-xs">
+            <span className="font-bold text-[#047857] flex items-center gap-1.5">
+              <BookOpen className="w-3.5 h-3.5 text-[#F97316]" />
+              Select Target Domain for Web Scraping & RAG Search (6 Official Domains):
+            </span>
+            <span className="text-[10px] font-mono text-[#047857]/60">
+              Active: {selectedDomain}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {DOMAINS.map((domain) => (
+              <button
+                key={domain}
+                onClick={() => setSelectedDomain(domain)}
+                className={`px-3 py-1 rounded-xs text-xs font-semibold transition-all cursor-pointer ${
+                  selectedDomain === domain
+                    ? 'bg-[#047857] text-white shadow-2xs'
+                    : 'bg-[#f4f7f5] text-[#047857] hover:bg-[#e6ece8] border border-[#047857]/15'
+                }`}
+              >
+                {domain}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-2">
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#047857]/50" />
@@ -122,12 +165,12 @@ export const RagExplorerView: React.FC = () => {
             {loading ? (
               <>
                 <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Retrieving Passages...</span>
+                <span>Scraping & Analyzing...</span>
               </>
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>Ask RAG Engine</span>
+                <span>AI Civic Search</span>
               </>
             )}
           </button>
@@ -165,6 +208,44 @@ export const RagExplorerView: React.FC = () => {
 
       {/* RAG Response Section */}
       {response && (
+        <div className="space-y-6">
+          {/* Live Web Scraping & Gemini Summarizer Card */}
+          {liveSummary && (
+            <div className="bg-[#fcfdfc] border border-[#047857]/30 rounded-xs p-6 shadow-2xs space-y-4">
+              <div className="flex flex-wrap items-center justify-between pb-3 border-b border-[#047857]/15 gap-2">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-[#F97316]" />
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#F97316] block">
+                      LIVE WEB SCRAPING & GEMINI SUMMARIZER ({liveSummary.domain})
+                    </span>
+                    <h3 className="text-sm sm:text-base font-extrabold text-[#047857]">
+                      Real-Time Data Center Analysis & Problem Summary
+                    </h3>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 bg-[#047857]/10 text-[#047857] text-[11px] font-bold rounded-xs">
+                    {liveSummary.records_analyzed} Records Scraped & Analyzed
+                  </span>
+                </div>
+              </div>
+
+              <div className="text-xs sm:text-sm text-[#047857]/90 leading-relaxed whitespace-pre-line bg-white p-4 border border-[#047857]/15 rounded-xs">
+                {liveSummary.summary}
+              </div>
+
+              <div className="pt-2 border-t border-[#047857]/10 flex flex-wrap items-center justify-between text-[11px] text-[#047857]/70 gap-2">
+                <div>
+                  <strong>Source Attribution:</strong> {liveSummary.source_attribution.source_name} ({liveSummary.source_attribution.dataset_title})
+                </div>
+                <div className="font-mono text-[10px]">
+                  Retrieved: {new Date(liveSummary.source_attribution.retrieved_at).toLocaleString()}
+                </div>
+              </div>
+            </div>
+          )}
+
         <div className="bg-white border border-[#047857]/20 rounded-xs p-6 shadow-2xs space-y-6">
           {/* Status Header */}
           <div className="flex flex-wrap items-center justify-between pb-4 border-b border-[#047857]/15 gap-2">
@@ -259,7 +340,8 @@ export const RagExplorerView: React.FC = () => {
             </p>
           </div>
         </div>
-      )}
+      </div>
+    )}
     </div>
   );
 };

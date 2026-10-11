@@ -19,6 +19,40 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const [selectedSeverity, setSelectedSeverity] = useState<string>('All');
   const [selectedStatus, setSelectedStatus] = useState<string>('All');
 
+  const [selectedDomain, setSelectedDomain] = useState<string>('Air Quality & Environment');
+  const [domainSearchQuery, setDomainSearchQuery] = useState<string>('Current environmental status and critical problems');
+  const [isScrapingDomain, setIsScrapingDomain] = useState<boolean>(false);
+  const [domainSummaryResult, setDomainSummaryResult] = useState<any | null>(null);
+
+  const sixDomains = [
+    'Air Quality & Environment',
+    'Waste Management & Sanitation',
+    'Roads & Infrastructure',
+    'Water Supply & Drainage',
+    'Public Health & Hospitals',
+    'Public Safety & Fire Brigade',
+  ];
+
+  const handleRunDomainScraper = async (domainToRun?: string) => {
+    const dom = domainToRun || selectedDomain;
+    setIsScrapingDomain(true);
+    try {
+      const res = await fetch('/api/live-domain-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain: dom, query: domainSearchQuery }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDomainSummaryResult(data);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsScrapingDomain(false);
+    }
+  };
+
   const categories = [
     'All Categories',
     'Waste Management',
@@ -181,6 +215,98 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Live Data Center Web Scraping & Gemini Domain Summarizer Section */}
+      <section className="bg-[#047857]/5 border-y border-[#047857]/20 py-10 my-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <span className="text-[11px] font-bold tracking-widest text-[#F97316] uppercase block mb-1">
+                AUTOMATED WEB SCRAPING & GEMINI INTELLIGENCE
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#047857] tracking-tight">
+                Live Data Center Domain Hub (6 Core Domains)
+              </h2>
+              <p className="text-xs sm:text-sm text-[#047857]/80 mt-1 max-w-3xl">
+                Choose a municipal or environmental domain below. Kartavya automatically connects to official data centers via web scraping, retrieves active telemetry and problem records, and synthesizes an AI problem summary using Gemini.
+              </p>
+            </div>
+          </div>
+
+          {/* 6 Domain Selector Pills */}
+          <div className="flex flex-wrap gap-2">
+            {sixDomains.map((dom) => (
+              <button
+                key={dom}
+                onClick={() => {
+                  setSelectedDomain(dom);
+                  handleRunDomainScraper(dom);
+                }}
+                className={`px-4 py-2 text-xs font-bold rounded-xs transition-all cursor-pointer flex items-center gap-2 ${
+                  selectedDomain === dom
+                    ? 'bg-[#047857] text-white shadow-xs'
+                    : 'bg-white border border-[#047857]/30 text-[#047857] hover:bg-[#047857]/10'
+                }`}
+              >
+                <span>{dom}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Domain Search & Trigger Bar */}
+          <div className="bg-white border border-[#047857]/30 p-4 rounded-xs shadow-2xs space-y-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#047857]/50" />
+                <input
+                  type="text"
+                  value={domainSearchQuery}
+                  onChange={(e) => setDomainSearchQuery(e.target.value)}
+                  placeholder={`Search query for ${selectedDomain} (e.g., critical bottlenecks, compliance failures)...`}
+                  className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-white border border-[#047857]/30 rounded-xs text-[#047857] placeholder-[#047857]/45 focus:border-[#F97316] focus:outline-hidden"
+                />
+              </div>
+              <button
+                onClick={() => handleRunDomainScraper()}
+                disabled={isScrapingDomain}
+                className="px-6 py-2.5 bg-[#F97316] hover:bg-[#EA580C] disabled:bg-gray-400 text-white text-xs sm:text-sm font-bold rounded-xs transition-colors shadow-xs cursor-pointer flex items-center justify-center gap-2 shrink-0"
+              >
+                {isScrapingDomain ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Scraping Data Center...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Scrape & Summarize with Gemini</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Results Display Area */}
+            {domainSummaryResult && (
+              <div className="mt-4 pt-4 border-t border-[#047857]/15 space-y-3 bg-[#047857]/2 p-4 rounded-xs border border-[#047857]/20">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span className="text-xs font-bold text-[#047857]">
+                      Live Scraping Result: {domainSummaryResult.domain}
+                    </span>
+                  </div>
+                  <div className="text-[11px] font-mono text-[#047857]/70">
+                    Records Analyzed: {domainSummaryResult.records_analyzed} • Source: {domainSummaryResult.source_attribution?.source_name}
+                  </div>
+                </div>
+
+                <div className="bg-white border border-[#047857]/20 p-4 rounded-xs text-xs text-[#047857]/90 leading-relaxed whitespace-pre-line font-sans">
+                  {domainSummaryResult.summary}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

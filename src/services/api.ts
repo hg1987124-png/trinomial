@@ -390,5 +390,30 @@ export const api = {
     }
     return res.json();
   },
+
+  async liveDomainSearch(domain: string, query: string): Promise<{
+    success: boolean;
+    domain: string;
+    query: string;
+    summary: string;
+    records_analyzed: number;
+    source_attribution: {
+      source_name: string;
+      dataset_title: string;
+      retrieved_at: string;
+      freshness: string;
+    };
+  }> {
+    const res = await fetch('/api/live-domain-search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ domain, query }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `Live domain search failed: ${res.statusText}`);
+    }
+    return res.json();
+  },
 };
 
