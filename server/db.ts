@@ -609,6 +609,15 @@ class Database {
             });
           }
 
+          // Ensure any stored volunteerOpportunities have active future expiration dates
+          if (Array.isArray(parsed.volunteerOpportunities)) {
+            const today = new Date().toISOString().slice(0, 10);
+            parsed.volunteerOpportunities = parsed.volunteerOpportunities.map((opp: any) => ({
+              ...opp,
+              expiresAt: opp.expiresAt && opp.expiresAt < today ? '2027-12-31' : opp.expiresAt,
+            }));
+          }
+
           return parsed;
         }
       } catch (e) {

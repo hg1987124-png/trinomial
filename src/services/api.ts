@@ -415,5 +415,147 @@ export const api = {
     }
     return res.json();
   },
+
+  async aiCivicSearch(params: {
+    query: string;
+    domain: string;
+    location?: string;
+    enable_live_scraping?: boolean;
+    enable_google_search_grounding?: boolean;
+    simulate_invalid_key?: boolean;
+    simulate_blocked_source?: string | null;
+    simulate_python_down?: boolean;
+  }): Promise<import('../types/civic').AiCivicSearchResponse> {
+    const res = await fetch('/api/ai-search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || `AI Civic Search failed (HTTP ${res.status})`);
+    }
+    return data;
+  },
+
+  async getPythonServiceHealth(): Promise<any> {
+    const res = await fetch('/api/python-health');
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || `Python service health check failed (HTTP ${res.status})`);
+    }
+    return data;
+  },
+
+  async discoverAndMobilizeIssue(params: {
+    scenario_id?: string;
+    source_url?: string;
+    custom_html?: string;
+    location_override?: string;
+    auto_publish?: boolean;
+  }): Promise<import('../types/civic').DiscoveredIssueWorkflowResponse> {
+    const res = await fetch('/api/discover-and-mobilize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || `Discovery & Mobilization failed (HTTP ${res.status})`);
+    }
+    return data;
+  },
+
+  async updateIssueStatus(
+    issueId: string,
+    status: CivicIssue['status'],
+    coordinator_notes?: string
+  ): Promise<{ success: boolean; message: string; issue: CivicIssue }> {
+    const res = await fetch(`/api/issues/${issueId}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status, coordinator_notes }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || `Failed to update issue status (HTTP ${res.status})`);
+    }
+    return data;
+  },
+
+  // Separate Citizen User & NGO Authentication API (Real SMTP OTP to User Email)
+  async sendAuthOtp(params: {
+    email: string;
+    role: import('../types/civic').AccountRole;
+    mode: 'login' | 'register';
+    name?: string;
+    phone?: string;
+    ward?: string;
+    skills_or_interests?: string;
+    organization_name?: string;
+    ngo_darpan_id?: string;
+    service_domains?: string[];
+  }): Promise<{
+    success: boolean;
+    message: string;
+    email: string;
+    role: import('../types/civic').AccountRole;
+    expires_in_seconds: number;
+  }> {
+    const res = await fetch('/api/auth/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to send verification code to email.');
+    }
+    return data;
+  },
+
+  async verifyAuthOtp(params: {
+    email: string;
+    role: import('../types/civic').AccountRole;
+    otp_code: string;
+  }): Promise<{
+    success: boolean;
+    message: string;
+    token: string;
+    account: import('../types/civic').AuthAccount;
+  }> {
+    const res = await fetch('/api/auth/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(data.error || 'Invalid or expired verification code.');
+    }
+    return data;
+  },
+
+  async getCurrentAccount(token: string): Promise<{
+    authenticated: boolean;
+    account: import('../types/civic').AuthAccount | null;
+  }> {
+    const res = await fetch('/api/auth/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) {
+      return { authenticated: false, account: null };
+    }
+    return res.json();
+  },
+
+  async logoutAccount(token: string): Promise<void> {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    }).catch(() => {});
+  },
 };
+
+
 

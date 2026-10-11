@@ -14,9 +14,19 @@ import EventDetailView from './views/EventDetailView';
 import ReportIssueModal from './components/modals/ReportIssueModal';
 import CollaborationModal from './components/modals/CollaborationModal';
 import CreateEventModal from './components/modals/CreateEventModal';
+import AuthModal from './components/modals/AuthModal';
 
-import { CivicIssue, Stakeholder, CivicEvent, EventRecommendation } from './types/civic';
+import {
+  CivicIssue,
+  Stakeholder,
+  CivicEvent,
+  EventRecommendation,
+  AccountRole,
+  AuthAccount,
+} from './types/civic';
 import { api } from './services/api';
+
+const AUTH_TOKEN_KEY = 'kartavya_auth_token';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('feed');
@@ -24,6 +34,11 @@ export default function App() {
   const [loadingIssues, setLoadingIssues] = useState(true);
   const [selectedIssueId, setSelectedIssueId] = useState<string>('KTV-MUM-2025-WTR-01');
   const [scrapingInProgress, setScrapingInProgress] = useState(false);
+
+  // Separate Citizen / NGO Authentication State
+  const [currentAccount, setCurrentAccount] = useState<AuthAccount | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalRole, setAuthModalRole] = useState<AccountRole>('user');
 
   // Event & Volunteer state
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
@@ -49,6 +64,22 @@ export default function App() {
       console.error('Failed to load issues:', e);
     } finally {
       setLoadingIssues(false);
+    }
+  };
+
+  const restoreAuthSession = async () => {
+    if (typeof window === 'undefined') return;
+    const savedToken = window.localStorage.getItem(AUTH_TOKEN_KEY);
+    if (!savedToken) return;
+    try {
+      const res = await api.getCurrentAccount(savedToken);
+      if (res.authenticated && res.account) {
+        setCurrentAccount(res.account);
+      } else {
+        window.localStorage.removeItem(AUTH_TOKEN_KEY);
+      }
+    } catch {
+      // Ignore network error during startup
     }
   };
 
@@ -86,6 +117,7 @@ export default function App() {
 
   useEffect(() => {
     fetchIssues();
+    restoreAuthSession();
     parseUrlRoute();
 
     const handleHashChange = () => {
@@ -95,6 +127,29 @@ export default function App() {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
+
+  const handleOpenAuthModal = (role: AccountRole) => {
+    setAuthModalRole(role);
+    setIsAuthModalOpen(true);
+  };
+
+  const handleAuthSuccess = (account: AuthAccount, token: string) => {
+    setCurrentAccount(account);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(AUTH_TOKEN_KEY, token);
+    }
+  };
+
+  const handleLogout = async () => {
+    if (typeof window !== 'undefined') {
+      const savedToken = window.localStorage.getItem(AUTH_TOKEN_KEY);
+      if (savedToken) {
+        await api.logoutAccount(savedToken);
+        window.localStorage.removeItem(AUTH_TOKEN_KEY);
+      }
+    }
+    setCurrentAccount(null);
+  };
 
   const handleNavigate = (tab: ActiveTab) => {
     setActiveTab(tab);
@@ -147,6 +202,9 @@ export default function App() {
         onNavigate={handleNavigate}
         onOpenReportModal={() => setIsReportModalOpen(true)}
         scrapingInProgress={scrapingInProgress}
+        currentAccount={currentAccount}
+        onOpenAuthModal={handleOpenAuthModal}
+        onLogout={handleLogout}
       />
 
       {/* Main View Container */}
@@ -156,6 +214,8 @@ export default function App() {
             issues={issues}
             loading={loadingIssues}
             onSelectIssue={handleSelectIssue}
+            onSelectEvent={handleSelectEvent}
+            onIssuesUpdated={fetchIssues}
             onOpenRagWithIssue={(id) => {
               setSelectedIssueId(id);
               setActiveTab('rag');
@@ -169,6 +229,7 @@ export default function App() {
           <IssueDetailView
             issue={currentIssue}
             onBack={() => handleNavigate('feed')}
+            onIssueUpdated={fetchIssues}
             onOpenCollaborationModal={(iss, stk) => handleOpenCollabModal(iss, stk)}
             onSelectEvent={handleSelectEvent}
             onOpenCreateEventModal={(iss, rec) => handleOpenCreateEventModal(iss, rec)}
@@ -230,6 +291,13 @@ export default function App() {
       <Footer onNavigate={handleNavigate} />
 
       {/* Modals */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialRole={authModalRole}
+        onAuthSuccess={handleAuthSuccess}
+      />
+
       <ReportIssueModal
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
@@ -258,6 +326,7 @@ export default function App() {
         prefilledIssue={eventPrefilledIssue}
         prefilledRecommendation={eventPrefilledRecommendation}
         availableIssues={issues}
+        currentAccount={currentAccount}
         onEventCreated={(evt) => {
           // Handled inside modal with shareable link and view event button
         }}

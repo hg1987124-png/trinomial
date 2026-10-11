@@ -31,6 +31,7 @@ import {
 interface IssueDetailViewProps {
   issue: CivicIssue;
   onBack: () => void;
+  onIssueUpdated?: () => void;
   onOpenCollaborationModal: (issue: CivicIssue, stakeholder?: Stakeholder) => void;
   onSelectEvent?: (eventId: string) => void;
   onOpenCreateEventModal?: (issue: CivicIssue, recommendation?: EventRecommendation) => void;
@@ -39,6 +40,7 @@ interface IssueDetailViewProps {
 export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
   issue,
   onBack,
+  onIssueUpdated,
   onOpenCollaborationModal,
   onSelectEvent,
   onOpenCreateEventModal,
@@ -46,6 +48,12 @@ export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
   const [actionPlan, setActionPlan] = useState<ActionPlan | null>(null);
   const [loadingPlan, setLoadingPlan] = useState(false);
   const [stakeholders, setStakeholders] = useState<Stakeholder[]>([]);
+
+  // Coordinator Issue Status state
+  const [selectedStatus, setSelectedStatus] = useState<CivicIssue['status']>(issue.status);
+  const [coordinatorNotes, setCoordinatorNotes] = useState<string>(issue.coordinator_notes || '');
+  const [updatingStatus, setUpdatingStatus] = useState<boolean>(false);
+  const [statusUpdateMessage, setStatusUpdateMessage] = useState<string | null>(null);
 
   // Civic Events connected to this issue
   const [issueEvents, setIssueEvents] = useState<CivicEvent[]>([]);
@@ -125,7 +133,26 @@ export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
     loadDetails();
     fetchIssueEvents();
     setAiRecommendation(null);
+    setSelectedStatus(issue.status);
+    setCoordinatorNotes(issue.coordinator_notes || '');
+    setStatusUpdateMessage(null);
   }, [issue.id]);
+
+  const handleUpdateIssueStatus = async () => {
+    setUpdatingStatus(true);
+    setStatusUpdateMessage(null);
+    try {
+      const res = await api.updateIssueStatus(issue.id, selectedStatus, coordinatorNotes);
+      setStatusUpdateMessage(res.message);
+      if (onIssueUpdated) {
+        onIssueUpdated();
+      }
+    } catch (err: any) {
+      setStatusUpdateMessage(err?.message || 'Failed to update issue status.');
+    } finally {
+      setUpdatingStatus(false);
+    }
+  };
 
   const handleFetchAiRecommendation = async () => {
     setLoadingAiRec(true);
@@ -204,18 +231,37 @@ export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
     return false;
   });
 
+  const technicalDisclaimerText =
+    issue.technical_repair_disclaimer ||
+    (issue.category === 'Water Supply' || issue.category === 'Sewerage & Drainage'
+      ? 'Technical repairs of burst water pipelines, pressurized trunk mains, valves, and sewage infrastructure must be handled exclusively by authorized Brihanmumbai Municipal Corporation (BMC) Hydraulic Engineering utilities or qualified professionals. Citizen volunteers must never attempt infrastructure repairs.'
+      : null);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Back button and breadcrumb */}
-      <div className="flex items-center gap-2">
-        <button
-          onClick={onBack}
-          className="px-3 py-1.5 bg-white border border-[#047857]/20 hover:border-[#047857] text-[#047857] text-xs font-semibold rounded-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onBack}
+            className="px-3 py-1.5 bg-white border border-[#047857]/20 hover:border-[#047857] text-[#047857] text-xs font-semibold rounded-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to Discovery Feed</span>
+          </button>
+          <span className="text-xs text-[#047857]/50 font-mono">/ {issue.id}</span>
+        </div>
+
+        <a
+          href={issue.source_resource_url}
+          target="_blank"
+          rel="noreferrer"
+          className="px-3 py-1.5 bg-white border border-[#047857]/30 hover:border-[#047857] text-[#047857] text-xs font-bold rounded-xs transition-colors flex items-center gap-1.5 shadow-2xs"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Discovery Feed</span>
-        </button>
-        <span className="text-xs text-[#047857]/50 font-mono">/ {issue.id}</span>
+          <FileText className="w-3.5 h-3.5 text-[#F97316]" />
+          <span>View Original Source Article / Record ({issue.publisher})</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
       </div>
 
       {/* Main Issue Header Card */}
@@ -230,7 +276,10 @@ export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
             </span>
             <span className="text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-xs flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              Documented in May 2025 Praja Audit
+              {issue.report_distinction_label || 'Documented in May 2025 Praja Audit'}
+            </span>
+            <span className="text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-1 rounded-xs">
+              Status: {selectedStatus}
             </span>
           </div>
 
@@ -244,6 +293,38 @@ export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
         <p className="text-xs sm:text-sm text-[#047857]/80 leading-relaxed max-w-4xl">
           {issue.description}
         </p>
+
+        {/* Official Confirmation & Source Support Assessment Banner */}
+        {issue.official_confirmation_summary && (
+          <div className="p-3.5 bg-[#fcfdfc] border border-[#047857]/25 rounded-xs text-xs space-y-1.5">
+            <div className="font-bold text-[#047857] flex items-center gap-1.5">
+              <Shield className="w-4 h-4 text-[#F97316]" />
+              <span>
+                Source Confirmation &amp; Verification Distinction ({issue.report_distinction_label}):
+              </span>
+            </div>
+            <p className="text-[#047857]/90 leading-relaxed">
+              {issue.official_confirmation_summary}
+            </p>
+            {issue.evidence_support_explanation && (
+              <p className="text-[11px] text-[#047857]/75">
+                <strong>Location &amp; Incident Support Check:</strong>{' '}
+                {issue.evidence_support_explanation}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Mandatory Technical Repair Safety Boundary */}
+        {technicalDisclaimerText && (
+          <div className="p-3.5 bg-amber-50 border border-amber-300 rounded-xs text-xs text-amber-950 space-y-1">
+            <div className="font-bold flex items-center gap-1.5 text-amber-900">
+              <Wrench className="w-4 h-4 text-amber-700 shrink-0" />
+              <span>Authorized Utility Repair Boundary (Non-Volunteer Technical Scope):</span>
+            </div>
+            <p className="text-[11px] leading-relaxed">{technicalDisclaimerText}</p>
+          </div>
+        )}
 
         {/* Priority Reason Callout */}
         <div className="p-3 bg-red-50/50 border border-red-200/60 rounded-xs text-xs text-red-900 space-y-1">
@@ -272,17 +353,65 @@ export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-[#047857]/70 shrink-0" />
             <div>
-              <span className="text-[10px] text-[#047857]/60 block font-semibold">Audit Publication</span>
-              <span className="font-semibold">{issue.publication_date} (Historical Record)</span>
+              <span className="text-[10px] text-[#047857]/60 block font-semibold">Publication Date</span>
+              <span className="font-semibold">{issue.publication_date}</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-[#047857]/70 shrink-0" />
             <div>
-              <span className="text-[10px] text-[#047857]/60 block font-semibold">Source Commons</span>
-              <span className="font-semibold">{issue.source_platform}</span>
+              <span className="text-[10px] text-[#047857]/60 block font-semibold">Attributed Source</span>
+              <span className="font-semibold">{issue.publisher || issue.source_platform}</span>
             </div>
+          </div>
+        </div>
+
+        {/* Coordinator Issue Status & Progress Control Bar */}
+        <div className="pt-3 border-t border-[#047857]/15 bg-[#f4f7f5] -mx-6 -mb-6 p-4 rounded-b-xs flex flex-col lg:flex-row lg:items-center justify-between gap-3 text-xs">
+          <div className="space-y-0.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#F97316] block">
+              Coordinator Progress &amp; Issue Status Management
+            </span>
+            <span className="font-bold text-[#047857]">
+              Update issue resolution stage &amp; log field coordination notes:
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value as CivicIssue['status'])}
+              className="px-3 py-1.5 bg-white border border-[#047857]/25 rounded-xs text-xs font-semibold text-[#047857]"
+            >
+              <option value="Documented">Documented</option>
+              <option value="Citizen Action Active">Citizen Action Active</option>
+              <option value="Under Authority Review">Under Authority Review</option>
+              <option value="Solution Proposed">Solution Proposed</option>
+            </select>
+
+            <input
+              type="text"
+              value={coordinatorNotes}
+              onChange={(e) => setCoordinatorNotes(e.target.value)}
+              placeholder="Optional coordinator status note (e.g., Tanker queue volunteers deployed)..."
+              className="w-64 px-3 py-1.5 bg-white border border-[#047857]/25 rounded-xs text-xs text-[#047857]"
+            />
+
+            <button
+              type="button"
+              onClick={handleUpdateIssueStatus}
+              disabled={updatingStatus}
+              className="px-3.5 py-1.5 bg-[#047857] hover:bg-[#035f44] disabled:opacity-50 text-white font-bold text-xs rounded-xs cursor-pointer shadow-2xs"
+            >
+              {updatingStatus ? 'Saving...' : 'Update Status'}
+            </button>
+
+            {statusUpdateMessage && (
+              <span className="text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-xs">
+                {statusUpdateMessage}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -304,8 +433,8 @@ export const IssueDetailView: React.FC<IssueDetailViewProps> = ({
               rel="noreferrer"
               className="text-[11px] font-semibold text-[#047857] hover:underline flex items-center gap-1"
             >
-              <Download className="w-3 h-3" />
-              <span>Download PDF (4.78MB)</span>
+              <ExternalLink className="w-3 h-3" />
+              <span>Open Original Source</span>
             </a>
           </div>
 

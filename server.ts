@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { spawn, ChildProcess } from 'child_process';
+import net from 'net';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
 import { apiRouter } from './server/routes';
@@ -13,8 +15,67 @@ const __dirname = path.dirname(__filename);
 const isProd = process.env.NODE_ENV === 'production';
 const PORT = 3000;
 const HOST = '0.0.0.0';
+const PYTHON_PORT = Number(process.env.PYTHON_SERVICE_PORT || 8765);
+
+let pythonProcess: ChildProcess | null = null;
+
+function checkPortInUse(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const socket = new net.Socket();
+    socket.setTimeout(600);
+    socket.once('connect', () => {
+      socket.destroy();
+      resolve(true);
+    });
+    socket.once('timeout', () => {
+      socket.destroy();
+      resolve(false);
+    });
+    socket.once('error', () => {
+      socket.destroy();
+      resolve(false);
+    });
+    socket.connect(port, '127.0.0.1');
+  });
+}
+
+async function ensurePythonServiceRunning() {
+  const running = await checkPortInUse(PYTHON_PORT);
+  if (running) {
+    console.log(`[Python Service] Already listening on http://127.0.0.1:${PYTHON_PORT}`);
+    return;
+  }
+
+  console.log(`[Python Service] Spawning FastAPI scraping & RAG service on http://127.0.0.1:${PYTHON_PORT}...`);
+  pythonProcess = spawn(
+    'python3',
+    ['-m', 'uvicorn', 'python_service.main:app', '--host', '127.0.0.1', '--port', String(PYTHON_PORT)],
+    {
+      cwd: __dirname,
+      env: { ...process.env, PYTHONUNBUFFERED: '1' },
+      stdio: ['ignore', 'pipe', 'pipe'],
+    }
+  );
+
+  pythonProcess.stdout?.on('data', (chunk) => {
+    const msg = chunk.toString().trim();
+    if (msg) console.log(`[Python FastAPI] ${msg}`);
+  });
+
+  pythonProcess.stderr?.on('data', (chunk) => {
+    const msg = chunk.toString().trim();
+    if (msg) console.log(`[Python FastAPI] ${msg}`);
+  });
+
+  pythonProcess.on('exit', (code) => {
+    console.warn(`[Python Service] Exited with code ${code}`);
+    pythonProcess = null;
+  });
+}
 
 async function startServer() {
+  await ensurePythonServiceRunning();
+
   const app = express();
 
   app.use(cors());
@@ -50,3 +111,4 @@ startServer().catch((err) => {
   console.error('[Server Error]', err);
   process.exit(1);
 });
+

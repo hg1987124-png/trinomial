@@ -55,6 +55,17 @@ export interface CivicIssue {
   status: 'Documented' | 'Citizen Action Active' | 'Under Authority Review' | 'Solution Proposed';
   petition_count?: number;
   volunteer_count?: number;
+  report_distinction?:
+    | 'officially_confirmed_notice'
+    | 'news_report_suspected_cases'
+    | 'unverified_public_claim'
+    | 'old_or_unrelated_report';
+  report_distinction_label?: string;
+  official_confirmation_summary?: string;
+  technical_repair_disclaimer?: string;
+  location_and_incident_supported?: boolean;
+  evidence_support_explanation?: string;
+  coordinator_notes?: string;
 }
 
 export interface DocumentChunk {
@@ -373,5 +384,155 @@ export interface VolunteerOpportunity {
   lastVerifiedAt: string;
   expiresAt: string;
 }
+
+export interface AiCivicSolution {
+  action: string;
+  whyItHelps: string;
+  supportingEvidence: string;
+  responsibleStakeholder: string;
+  implementationSteps: string[];
+  constraintsAndRisks: string[];
+  expectedOutcome: string;
+  isAiRecommendation: boolean;
+}
+
+export interface AiCivicStakeholder {
+  name: string;
+  organizationType: string;
+  role: string;
+  verifiedInSource: boolean;
+  sourceUrl?: string;
+}
+
+export interface AiCivicSourceCitation {
+  chunkId: string;
+  sourceId: string;
+  sourceName: string;
+  title: string;
+  url: string;
+  pageNumber?: number;
+  section?: string;
+  excerpt: string;
+  publishedDate?: string;
+  retrievedAt: string;
+  relevanceScore: number;
+  retrievalType: string;
+}
+
+export interface AiCivicSearchResponse {
+  status: 'success' | 'partial_success' | 'insufficient_evidence' | 'error';
+  query: string;
+  domain: string;
+  location?: string;
+  summary: string;
+  keyFindings: string[];
+  problemAnalysis: {
+    evidenceSupportedFactors: string[];
+    rootCauseHypotheses: string[];
+    uncertainties: string[];
+  };
+  recommendedSolutions: AiCivicSolution[];
+  priorityAssessment: {
+    level: string;
+    reason: string;
+  };
+  stakeholders: AiCivicStakeholder[];
+  sources: AiCivicSourceCitation[];
+  retrievalStatus: {
+    queriedSources: string[];
+    successfulSources: string[];
+    failedSources: { source: string; error: string }[];
+    scrapedPagesCount: number;
+  };
+  ragStatus: {
+    ingestionPerformed: boolean;
+    embeddingModel?: string | null;
+    semanticEmbeddingsUsed: boolean;
+    retrievalMethod: string;
+    totalChunksInStore: number;
+    relevantChunksRetrieved: number;
+  };
+  limitations: string[];
+  modelUsed: string;
+  generatedByGemini: boolean;
+  googleSearchGrounding?: { title: string; url: string }[] | null;
+  generatedAt: string;
+}
+
+export interface VolunteerAssistanceOption {
+  activity_title: string;
+  activity_category: string;
+  description: string;
+  volunteer_tasks: string[];
+  equipment_provided: string[];
+  safety_precautions: string[];
+  requires_professional_authority_instead: boolean;
+  suitability: string;
+}
+
+export interface DiscoveredIssueWorkflowResponse {
+  status: 'success' | 'needs_verification' | 'rejected_old_or_unrelated' | 'error';
+  scenario_id: string;
+  source_connector: {
+    id: string;
+    name: string;
+    url: string;
+    public_view_url?: string;
+    parser: string;
+    http_status: number;
+  };
+  extracted_html_metadata: {
+    title: string;
+    publisher: string;
+    publication_date: string;
+    location_text: string;
+    ward: string;
+    city: string;
+    headings: string[];
+    paragraphs_extracted: number;
+    extracted_text_length: number;
+    sample_excerpts: string[];
+  };
+  report_distinction:
+    | 'officially_confirmed_notice'
+    | 'news_report_suspected_cases'
+    | 'unverified_public_claim'
+    | 'old_or_unrelated_report';
+  report_distinction_label: string;
+  official_confirmation_summary: string;
+  location_and_incident_supported: boolean;
+  evidence_support_explanation: string;
+  should_publish_as_active_issue: boolean;
+  published_issue?: CivicIssue | null;
+  linked_volunteer_event?: CivicEvent | null;
+  rag_corroborating_evidence: AiCivicSourceCitation[];
+  technical_repair_disclaimer: string;
+  volunteer_assistance_options: VolunteerAssistanceOption[];
+  recommended_authority: string;
+  model_used: string;
+  generated_by_gemini: boolean;
+  discovered_at: string;
+}
+
+export type AccountRole = 'user' | 'ngo';
+
+export interface AuthAccount {
+  id: string;
+  role: AccountRole;
+  name: string;
+  email: string;
+  phone?: string;
+  ward?: string;
+  skills_or_interests?: string;
+  organization_name?: string;
+  ngo_darpan_id?: string;
+  service_domains?: string[];
+  verified: boolean;
+  created_at: string;
+  last_login_at: string;
+}
+
+
+
 
 

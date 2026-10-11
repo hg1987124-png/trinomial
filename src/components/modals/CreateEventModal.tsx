@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CivicIssue, CivicEvent, EventCategory, EventRecommendation } from '../../types/civic';
+import { CivicIssue, CivicEvent, EventCategory, EventRecommendation, AuthAccount } from '../../types/civic';
 import { api } from '../../services/api';
 import { X, Calendar, MapPin, Users, CheckCircle2, AlertCircle, Plus, Sparkles, ExternalLink, Check } from 'lucide-react';
 
@@ -9,6 +9,7 @@ interface CreateEventModalProps {
   prefilledIssue?: CivicIssue | null;
   prefilledRecommendation?: EventRecommendation | null;
   availableIssues?: CivicIssue[];
+  currentAccount?: AuthAccount | null;
   onEventCreated?: (event: CivicEvent) => void;
   onViewEvent?: (eventId: string) => void;
 }
@@ -31,6 +32,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
   prefilledIssue,
   prefilledRecommendation,
   availableIssues = [],
+  currentAccount = null,
   onEventCreated,
   onViewEvent,
 }) => {
@@ -69,6 +71,18 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
       const dayBefore = new Date(Date.now() + 6 * 86400000).toISOString().slice(0, 10);
       setDate(nextWeek);
       setDeadline(dayBefore);
+
+      if (currentAccount) {
+        setOrganizerName(currentAccount.name);
+        setOrganizerContact(currentAccount.email);
+        if (currentAccount.role === 'ngo') {
+          setOrganizerOrg(currentAccount.organization_name || 'Verified NGO Partner');
+          setOrganizerType('Verified NGO');
+        } else {
+          setOrganizerOrg('Citizen Volunteer Collective');
+          setOrganizerType('Community Group');
+        }
+      }
 
       if (prefilledIssue) {
         setSelectedIssueIds([prefilledIssue.id]);
@@ -109,7 +123,7 @@ export const CreateEventModal: React.FC<CreateEventModalProps> = ({
         setSelectedIssueIds([]);
       }
     }
-  }, [isOpen, prefilledIssue, prefilledRecommendation]);
+  }, [isOpen, prefilledIssue, prefilledRecommendation, currentAccount]);
 
   if (!isOpen) return null;
 

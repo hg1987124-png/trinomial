@@ -30,7 +30,7 @@ export async function generateGeminiJson<T>(
 
   try {
     const callPromise = ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
       config: {
         systemInstruction: systemInstruction || 'You are an objective civic intelligence analyst for Kartavya. Ground all claims in the provided source evidence. Do not fabricate facts.',
@@ -64,7 +64,7 @@ export async function generateGeminiText(
 
   try {
     const callPromise = ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
       config: {
         systemInstruction: systemInstruction || 'You are an objective civic intelligence analyst for Kartavya.',

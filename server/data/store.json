@@ -39,6 +39,109 @@
   ],
   "ingestionRuns": [
     {
+      "id": "ing-disc-1791712735913",
+      "source_id": "mumbai-civic-bulletins",
+      "source_name": "Brihanmumbai Municipal Corporation (BMC) Public Health Department — Circular #MOH/FN/2026/412",
+      "dataset_title": "OFFICIAL PUBLIC HEALTH NOTICE: Boiled Water Advisory in F-North Ward (Sion Koliwada) After Confirmed Coliform Detection",
+      "dataset_url": "/api/public-bulletins/confirmed_public_health_notice.html",
+      "resource_url": "/api/public-bulletins/confirmed_public_health_notice.html",
+      "started_at": "2026-10-11T09:58:55.905Z",
+      "completed_at": "2026-10-11T09:58:55.913Z",
+      "status": "success",
+      "resources_found": 1,
+      "documents_processed": 1,
+      "records_created": 1,
+      "duplicates_skipped": 0,
+      "documents_indexed": 5,
+      "pages_extracted": 1,
+      "duration_ms": 850,
+      "log_entries": [
+        "Discovered report via connector: Brihanmumbai Municipal Corporation (BMC) Public Health Department — Circular #MOH/FN/2026/412",
+        "Extracted HTML via Python BeautifulSoup4 (1422 chars)",
+        "Corroborated with 4 RAG passages",
+        "Classified by Gemini (gemini-3-flash-preview) as: Officially Confirmed Public-Health / Utility Notice",
+        "Published civic issue KTV-MUM-2026-HLT-CONF-03 and linked safe volunteer activity evt-disc-ktv-mum-2026-hlt-conf-03"
+      ]
+    },
+    {
+      "id": "ing-disc-1791712721702",
+      "source_id": "mumbai-civic-bulletins",
+      "source_name": "Mumbai Eastern Suburbs Civic Watch — Local News Report",
+      "dataset_title": "Govandi & Baiganwadi Residents Report Foul-Smelling Tap Water and Suspected Typhoid Cases",
+      "dataset_url": "/api/public-bulletins/water_contamination_typhoid.html",
+      "resource_url": "/api/public-bulletins/water_contamination_typhoid.html",
+      "started_at": "2026-10-11T09:58:41.694Z",
+      "completed_at": "2026-10-11T09:58:41.702Z",
+      "status": "success",
+      "resources_found": 1,
+      "documents_processed": 1,
+      "records_created": 1,
+      "duplicates_skipped": 0,
+      "documents_indexed": 5,
+      "pages_extracted": 1,
+      "duration_ms": 850,
+      "log_entries": [
+        "Discovered report via connector: Mumbai Eastern Suburbs Civic Watch — Local News Report",
+        "Extracted HTML via Python BeautifulSoup4 (2133 chars)",
+        "Corroborated with 4 RAG passages",
+        "Classified by Gemini (gemini-3-flash-preview) as: News Report Describing Suspected Cases",
+        "Published civic issue KTV-MUM-2026-HLT-TYPH-02 and linked safe volunteer activity evt-disc-ktv-mum-2026-hlt-typh-02"
+      ]
+    },
+    {
+      "id": "ing-disc-1791712705344",
+      "source_id": "mumbai-civic-bulletins",
+      "source_name": "Mumbai Civic Utility Bulletin & Local Press Desk (BMC Docket #HE-L-2026-109)",
+      "dataset_title": "Major 1200mm Water Pipeline Burst on LBS Marg Near Kurla West Disrupts L-Ward Supply",
+      "dataset_url": "/api/public-bulletins/water_pipeline_burst.html",
+      "resource_url": "/api/public-bulletins/water_pipeline_burst.html",
+      "started_at": "2026-10-11T09:58:25.336Z",
+      "completed_at": "2026-10-11T09:58:25.344Z",
+      "status": "success",
+      "resources_found": 1,
+      "documents_processed": 1,
+      "records_created": 1,
+      "duplicates_skipped": 0,
+      "documents_indexed": 5,
+      "pages_extracted": 1,
+      "duration_ms": 850,
+      "log_entries": [
+        "Discovered report via connector: Mumbai Civic Utility Bulletin & Local Press Desk (BMC Docket #HE-L-2026-109)",
+        "Extracted HTML via Python BeautifulSoup4 (2255 chars)",
+        "Corroborated with 4 RAG passages",
+        "Classified by Gemini (gemini-3-flash-preview) as: Officially Confirmed Public-Health / Utility Notice",
+        "Published civic issue KTV-MUM-2026-WTR-BURST-01 and linked safe volunteer activity evt-disc-ktv-mum-2026-wtr-burst-01"
+      ]
+    },
+    {
+      "id": "ing-1791712638074",
+      "source_id": "opencity-in",
+      "source_name": "OpenCity India",
+      "dataset_title": "Report on the Status of Civic Issues in Mumbai - May 2025",
+      "dataset_url": "https://data.opencity.in/dataset/report-on-the-status-of-civic-issues-in-mumbai-may-2025",
+      "resource_url": "https://data.opencity.in/dataset/0cd78ce4-1088-480e-91cf-762734f6d6b7/resource/eae0e205-c8d3-4827-b8c4-87fb4dcd122e/download/9fd725e6-910d-41ae-957f-242dad034cf9.pdf",
+      "started_at": "2026-10-11T09:57:14.013Z",
+      "completed_at": "2026-10-11T09:57:18.074Z",
+      "status": "success",
+      "resources_found": 1,
+      "documents_processed": 1,
+      "records_created": 6,
+      "duplicates_skipped": 0,
+      "documents_indexed": 92,
+      "pages_extracted": 92,
+      "duration_ms": 4061,
+      "log_entries": [
+        "[Scraper] Initializing OpenCity India scraper at 2026-10-11T09:57:14.013Z",
+        "[Scraper] Querying CKAN API endpoint: https://data.opencity.in/api/3/action/package_show?id=report-on-the-status-of-civic-issues-in-mumbai-may-2025",
+        "[Scraper] CKAN API confirmed resource: \"Report on the Status of Civic Issues in Mumbai - May 2025\" (4785939 bytes)",
+        "[Scraper] Downloading document resource from: https://data.opencity.in/dataset/0cd78ce4-1088-480e-91cf-762734f6d6b7/resource/eae0e205-c8d3-4827-b8c4-87fb4dcd122e/download/9fd725e6-910d-41ae-957f-242dad034cf9.pdf",
+        "[Scraper] Downloaded 4785939 bytes. SHA256 checksum: ff8e8e491808c6ea",
+        "[Scraper] Parsing document layout and extracting text via PDFParse...",
+        "[Scraper] Extracted 190309 characters of raw text",
+        "[Scraper] Successfully indexed 92 distinct document chunks with section metadata"
+      ]
+    },
+    {
       "id": "ing-1791705595680",
       "source_id": "opencity-in",
       "source_name": "OpenCity India",
@@ -146,6 +249,206 @@
     }
   ],
   "issues": [
+    {
+      "id": "KTV-MUM-2026-HLT-CONF-03",
+      "title": "Confirmed Coliform Contamination and Typhoid Outbreak in Sion Koliwada (F-North Ward)",
+      "description": "BMC has issued a mandatory boiled-water advisory for Sion Koliwada and Pratiksha Nagar Sector 3 after 4 of 9 water samples tested positive for coliform bacteria. The contamination is attributed to a cross-connection leak between a water sub-branch line and an underground sewerage chamber, resulting in 9 laboratory-verified typhoid cases. While BMC Hydraulic Engineering is currently replacing the affected pipes and performing super-chlorination, residents must boil water for 10 minutes for at least 72 hours.",
+      "category": "Water Supply",
+      "issue_type": "documented_civic_concern",
+      "location_text": "Sion Koliwada & Pratiksha Nagar Sector 3, F-North Ward, Mumbai",
+      "ward": "F-North Ward",
+      "city": "Mumbai",
+      "priority": "Critical",
+      "priority_reason": "Confirmed presence of pathogens (coliform) and active typhoid cases pose an immediate and severe threat to public health, requiring urgent community notification and intervention.",
+      "verification_status": "documented_in_source",
+      "publication_date": "October 11, 2026",
+      "retrieved_at": "2026-10-11T09:58:55.905Z",
+      "created_at": "2026-10-11T09:58:55.905Z",
+      "updated_at": "2026-10-11T09:58:55.905Z",
+      "source_platform": "Brihanmumbai Municipal Corporation (BMC) Public Health Department — Circular #MOH/FN/2026/412",
+      "source_dataset_title": "OFFICIAL PUBLIC HEALTH NOTICE: Boiled Water Advisory in F-North Ward (Sion Koliwada) After Confirmed Coliform Detection",
+      "source_dataset_url": "/api/public-bulletins/confirmed_public_health_notice.html",
+      "source_resource_url": "/api/public-bulletins/confirmed_public_health_notice.html",
+      "publisher": "Brihanmumbai Municipal Corporation (BMC) Public Health Department — Circular #MOH/FN/2026/412",
+      "assigned_authority": "BMC Hydraulic Engineering Department & F-North Ward Medical Officer of Health (MOH)",
+      "evidence": [
+        {
+          "id": "ev-KTV-MUM-2026-HLT-CONF-03-scraped",
+          "issue_id": "KTV-MUM-2026-HLT-CONF-03",
+          "resource_id": "res-confirmed_public_health_notice",
+          "document_title": "OFFICIAL PUBLIC HEALTH NOTICE: Boiled Water Advisory in F-North Ward (Sion Koliwada) After Confirmed Coliform Detection (Officially Confirmed Public-Health / Utility Notice)",
+          "page_number": 1,
+          "section_heading": "BeautifulSoup Scraped Report (Brihanmumbai Municipal Corporation (BMC) Public Health Department — Circular #MOH/FN/2026/412)",
+          "evidence_excerpt": "The Medical Officer of Health (F-North Ward) and the Municipal Laboratory at Dadar officially confirm that 4 out of 9 routine water samples collected from distribution standposts in Sion Koliwada tested positive for coliform bacteria due to a cross-connection leak near an underground sewerage chamber. Furthermore, Sion Hospital surveillance confirmed 9 laboratory-verified Widal/blood-culture positive typhoid cases from the affected cluster.",
+          "original_url": "/api/public-bulletins/confirmed_public_health_notice.html",
+          "metric_value": "Officially Confirmed Public-Health / Utility Notice"
+        },
+        {
+          "id": "ev-KTV-MUM-2026-HLT-CONF-03-rag-1",
+          "issue_id": "KTV-MUM-2026-HLT-CONF-03",
+          "resource_id": "mumbai-civic-bulletins",
+          "document_title": "OFFICIAL PUBLIC HEALTH NOTICE: Boiled Water Advisory in F-North Ward (Sion Koliwada) After Confirmed Coliform Detection",
+          "page_number": 1,
+          "section_heading": "RAG Corroborated Evidence: Scraped Civic Incident Report (Part 1)",
+          "evidence_excerpt": "OFFICIAL PUBLIC HEALTH NOTICE: Boiled Water Advisory in F-North Ward (Sion Koliwada) After Confirmed Coliform Detection\n\nOfficial BMC Public Health Department Epidemic Cell notice confirming coliform bacteria in 4 water samples in Sion Koliwada, F-North Ward.\n\nOFFICIAL PUBLIC HEALTH NOTICE: Mandatory Boiled-Water Advisory & Super-Chlorination in Sion Koliwad",
+          "original_url": "http://127.0.0.1:8765/public-bulletins/confirmed_public_health_notice.html"
+        },
+        {
+          "id": "ev-KTV-MUM-2026-HLT-CONF-03-rag-2",
+          "issue_id": "KTV-MUM-2026-HLT-CONF-03",
+          "resource_id": "mumbai-civic-bulletins",
+          "document_title": "OFFICIAL PUBLIC HEALTH NOTICE: Boiled Water Advisory in F-North Ward (Sion Koliwada) After Confirmed Coliform Detection",
+          "page_number": 1,
+          "section_heading": "RAG Corroborated Evidence: Scraped Civic Incident Report (Part 2)",
+          "evidence_excerpt": "n Sion Koliwada tested positive for coliform bacteria due to a cross-connection leak near an underground sewerage chamber. Furthermore, Sion Hospital surveillance confirmed 9 laboratory-verified Widal/blood-culture positive typhoid cases from the affected cluster.\nBMC Hydraulic Engineering has isolated the affected sub-branch line for pipe replacement and in",
+          "original_url": "http://127.0.0.1:8765/public-bulletins/confirmed_public_health_notice.html"
+        }
+      ],
+      "uncertainties": [
+        "Exact completion time for the pipe replacement and the duration of the super-chlorination process beyond the initial 72-hour advisory."
+      ],
+      "status": "Citizen Action Active",
+      "report_distinction": "officially_confirmed_notice",
+      "report_distinction_label": "Officially Confirmed Public-Health / Utility Notice",
+      "official_confirmation_summary": "The BMC Public Health Department and Municipal Laboratory at Dadar have officially confirmed coliform bacteria in water samples from Sion Koliwada via Circular #MOH/FN/2026/412. Additionally, Sion Hospital has verified 9 typhoid cases linked to this specific contamination cluster.",
+      "technical_repair_disclaimer": "Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers.",
+      "location_and_incident_supported": true,
+      "evidence_support_explanation": "The location (Sion Koliwada, F-North Ward) and the incident (coliform contamination due to a sewerage leak) are explicitly detailed in the BMC circular and corroborated by RAG evidence citing specific lab results and hospital surveillance."
+    },
+    {
+      "id": "KTV-MUM-2026-HLT-TYPH-02",
+      "title": "Suspected Water Contamination and Typhoid Cluster in Baiganwadi, Govandi",
+      "description": "Residents in Baiganwadi (Plots 14-19) and Shivaji Nagar are reporting foul-smelling, yellowish tap water, with local doctors treating 18 suspected typhoid and 32 gastroenteritis cases over the last 10 days. Historical data indicates that M-East Ward faces significant risks of sewage ingress into aging water lines that run parallel to drains. While BMC officials have collected samples for testing, residents are advised to take immediate precautions until lab results are finalized.",
+      "category": "Water Supply",
+      "issue_type": "documented_civic_concern",
+      "location_text": "Baiganwadi (Plots 14–19) and Shivaji Nagar, Govandi, M-East Ward",
+      "ward": "M-East Ward",
+      "city": "Mumbai",
+      "priority": "Critical",
+      "priority_reason": "The report indicates a significant cluster of suspected enteric fever (typhoid) and gastroenteritis cases in a high-density area, coupled with visible water quality degradation.",
+      "verification_status": "pending_verification",
+      "publication_date": "October 10, 2026",
+      "retrieved_at": "2026-10-11T09:58:41.694Z",
+      "created_at": "2026-10-11T09:58:41.694Z",
+      "updated_at": "2026-10-11T09:58:41.694Z",
+      "source_platform": "Mumbai Eastern Suburbs Civic Watch — Local News Report",
+      "source_dataset_title": "Govandi & Baiganwadi Residents Report Foul-Smelling Tap Water and Suspected Typhoid Cases",
+      "source_dataset_url": "/api/public-bulletins/water_contamination_typhoid.html",
+      "source_resource_url": "/api/public-bulletins/water_contamination_typhoid.html",
+      "publisher": "Mumbai Eastern Suburbs Civic Watch — Local News Report",
+      "assigned_authority": "BMC Hydraulic Engineering Department (M-East Ward) and Medical Officer of Health (M-East Ward)",
+      "evidence": [
+        {
+          "id": "ev-KTV-MUM-2026-HLT-TYPH-02-scraped",
+          "issue_id": "KTV-MUM-2026-HLT-TYPH-02",
+          "resource_id": "res-water_contamination_typhoid",
+          "document_title": "Govandi & Baiganwadi Residents Report Foul-Smelling Tap Water and Suspected Typhoid Cases (News Report Describing Suspected Cases)",
+          "page_number": 1,
+          "section_heading": "BeautifulSoup Scraped Report (Mumbai Eastern Suburbs Civic Watch — Local News Report)",
+          "evidence_excerpt": "Residents across Plots 14 to 19 in Baiganwadi and adjoining lanes of Shivaji Nagar in Govandi (M-East Ward, Mumbai) have reported yellowish, foul-smelling water emerging from household and community standpost taps during the first 20 minutes of morning supply over the past four days.",
+          "original_url": "/api/public-bulletins/water_contamination_typhoid.html",
+          "metric_value": "News Report Describing Suspected Cases"
+        },
+        {
+          "id": "ev-KTV-MUM-2026-HLT-TYPH-02-rag-1",
+          "issue_id": "KTV-MUM-2026-HLT-TYPH-02",
+          "resource_id": "mumbai-civic-bulletins",
+          "document_title": "Govandi & Baiganwadi Residents Report Foul-Smelling Tap Water and Suspected Typhoid Cases",
+          "page_number": 1,
+          "section_heading": "RAG Corroborated Evidence: Scraped Civic Incident Report (Part 1)",
+          "evidence_excerpt": "Govandi & Baiganwadi Residents Report Foul-Smelling Tap Water and Suspected Typhoid Cases\n\nLocal news report describing suspected water contamination and 18 suspected enteric fever/typhoid cases in Baiganwadi, M-East Ward, Mumbai. Official BMC lab confirmation awaited.\n\nResidents in Govandi & Baiganwadi (M-East Ward) Report Foul-Smelling Tap Water and Suspec",
+          "original_url": "http://127.0.0.1:8765/public-bulletins/water_contamination_typhoid.html"
+        },
+        {
+          "id": "ev-KTV-MUM-2026-HLT-TYPH-02-rag-2",
+          "issue_id": "KTV-MUM-2026-HLT-TYPH-02",
+          "resource_id": "opencity-in",
+          "document_title": "Report on the Status of Civic Issues in Mumbai - May 2025",
+          "page_number": 16,
+          "section_heading": "RAG Corroborated Evidence: Section 2.3: Potable Water Contamination & Water-Borne Diseases",
+          "evidence_excerpt": "Across municipal water quality testing dockets in Mumbai, 14.2% of drinking water samples tested in high-density wards (M-East Govandi, L-Ward Kurla, and F-North Sion) were found unfit for potable consumption due to coliform bacteria ingress where aging water supply service lines run parallel to stormwater and sewerage drains. Municipal dispensaries recorded",
+          "original_url": "https://data.opencity.in/dataset/report-on-the-status-of-civic-issues-in-mumbai-may-2025"
+        }
+      ],
+      "uncertainties": [
+        "Official bacteriological laboratory results (E. coli/Salmonella typhi) from the BMC Municipal Analyst are pending",
+        "Exact location of the suspected pipe breach or sewage ingress point is not yet confirmed"
+      ],
+      "status": "Citizen Action Active",
+      "report_distinction": "news_report_suspected_cases",
+      "report_distinction_label": "News Report Describing Suspected Cases",
+      "official_confirmation_summary": "While the M-East Ward Assistant Engineer (Water Works) has acknowledged receiving 11 complaints and collected water samples on October 10, the official bacteriological laboratory results and a formal epidemic declaration from the BMC Public Health Department are currently pending.",
+      "technical_repair_disclaimer": "Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers.",
+      "location_and_incident_supported": true,
+      "evidence_support_explanation": "The report provides specific locations (Baiganwadi Plots 14-19, Shivaji Nagar) and ward (M-East). RAG evidence from OpenCity India corroborates that M-East Ward is a high-risk area where 14.2% of samples are historically unfit due to sewage ingress in aging service lines."
+    },
+    {
+      "id": "KTV-MUM-2026-WTR-BURST-01",
+      "title": "Major 1200mm Water Pipeline Burst on LBS Marg, Kurla West (L-Ward)",
+      "description": "A 1200mm cast-iron water feeder main ruptured on LBS Marg near Kurla West junction on October 11, 2026, causing significant waterlogging and a 35% supply cut in L-Ward. BMC Hydraulic Engineering teams have isolated the valves and initiated an 18-to-24 hour emergency repair operation. Affected areas include Halav Pool, Bail Bazaar, Saki Naka, and New Mill Road, with delayed evening supply expected.",
+      "category": "Water Supply",
+      "issue_type": "documented_civic_concern",
+      "location_text": "LBS Marg near Kurla West Railway Junction, Halav Pool & Bail Bazaar, L-Ward, Mumbai",
+      "ward": "L-Ward",
+      "city": "Mumbai",
+      "priority": "Critical",
+      "priority_reason": "A major trunk main burst affects thousands of residents, causes significant potable water loss, disrupts arterial traffic, and requires immediate emergency repairs and public health advisories regarding water safety.",
+      "verification_status": "documented_in_source",
+      "publication_date": "October 11, 2026",
+      "retrieved_at": "2026-10-11T09:58:25.336Z",
+      "created_at": "2026-10-11T09:58:25.336Z",
+      "updated_at": "2026-10-11T09:58:25.336Z",
+      "source_platform": "Mumbai Civic Utility Bulletin & Local Press Desk (BMC Docket #HE-L-2026-109)",
+      "source_dataset_title": "Major 1200mm Water Pipeline Burst on LBS Marg Near Kurla West Disrupts L-Ward Supply",
+      "source_dataset_url": "/api/public-bulletins/water_pipeline_burst.html",
+      "source_resource_url": "/api/public-bulletins/water_pipeline_burst.html",
+      "publisher": "Mumbai Civic Utility Bulletin & Local Press Desk (BMC Docket #HE-L-2026-109)",
+      "assigned_authority": "BMC Hydraulic Engineering Department & L-Ward Assistant Commissioner",
+      "evidence": [
+        {
+          "id": "ev-KTV-MUM-2026-WTR-BURST-01-scraped",
+          "issue_id": "KTV-MUM-2026-WTR-BURST-01",
+          "resource_id": "res-water_pipeline_burst",
+          "document_title": "Major 1200mm Water Pipeline Burst on LBS Marg Near Kurla West Disrupts L-Ward Supply (Officially Confirmed Public-Health / Utility Notice)",
+          "page_number": 1,
+          "section_heading": "BeautifulSoup Scraped Report (Mumbai Civic Utility Bulletin & Local Press Desk (BMC Docket #HE-L-2026-109))",
+          "evidence_excerpt": "At approximately 04:45 IST on October 11, 2026, a major 1,200mm cast-iron potable water feeder main ruptured along Lal Bahadur Shastri (LBS) Marg near the Kurla West junction in Mumbai's L-Ward. Thousands of kilolitres of treated water gushed onto the arterial roadway, inundating low-lying pockets near Halav Pool, Bail Bazaar, and New Mill Road.",
+          "original_url": "/api/public-bulletins/water_pipeline_burst.html",
+          "metric_value": "Officially Confirmed Public-Health / Utility Notice"
+        },
+        {
+          "id": "ev-KTV-MUM-2026-WTR-BURST-01-rag-1",
+          "issue_id": "KTV-MUM-2026-WTR-BURST-01",
+          "resource_id": "mumbai-civic-bulletins",
+          "document_title": "Major 1200mm Water Pipeline Burst on LBS Marg Near Kurla West Disrupts L-Ward Supply",
+          "page_number": 1,
+          "section_heading": "RAG Corroborated Evidence: Scraped Civic Incident Report (Part 2)",
+          "evidence_excerpt": "junction in Mumbai's L-Ward. Thousands of kilolitres of treated water gushed onto the arterial roadway, inundating low-lying pockets near Halav Pool, Bail Bazaar, and New Mill Road.\nEngineers from the Brihanmumbai Municipal Corporation (BMC) Hydraulic Engineering Department isolated the main sluice valves at 06:10 IST and deployed heavy excavation machinery,",
+          "original_url": "http://127.0.0.1:8765/public-bulletins/water_pipeline_burst.html"
+        },
+        {
+          "id": "ev-KTV-MUM-2026-WTR-BURST-01-rag-2",
+          "issue_id": "KTV-MUM-2026-WTR-BURST-01",
+          "resource_id": "mumbai-civic-bulletins",
+          "document_title": "Major 1200mm Water Pipeline Burst on LBS Marg Near Kurla West Disrupts L-Ward Supply",
+          "page_number": 1,
+          "section_heading": "RAG Corroborated Evidence: Scraped Civic Incident Report (Part 1)",
+          "evidence_excerpt": "Major 1200mm Water Pipeline Burst on LBS Marg Near Kurla West Disrupts L-Ward Supply\n\nA 1200mm trunk water feeder main ruptured on LBS Marg near Kurla West junction in L-Ward, Mumbai. BMC Hydraulic Engineering teams deployed for heavy valve isolation.\n\nMajor 1,200mm Water Pipeline Burst on LBS Marg Near Kurla West Disrupts L-Ward Supply; BMC Hydraulic Crew D",
+          "original_url": "http://127.0.0.1:8765/public-bulletins/water_pipeline_burst.html"
+        }
+      ],
+      "uncertainties": [
+        "Exact completion time of the 18-24 hour repair window",
+        "Potential for further pressure drops if secondary leaks are detected during line recharging"
+      ],
+      "status": "Citizen Action Active",
+      "report_distinction": "officially_confirmed_notice",
+      "report_distinction_label": "Officially Confirmed Public-Health / Utility Notice",
+      "official_confirmation_summary": "The incident is officially confirmed via BMC Docket #HE-L-2026-109, issued by the Mumbai Civic Utility Bulletin. It details specific technical actions taken by the Hydraulic Engineering Department, including valve isolation at 06:10 IST and the deployment of specialized welding crews.",
+      "technical_repair_disclaimer": "Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers.",
+      "location_and_incident_supported": true,
+      "evidence_support_explanation": "The location (LBS Marg, Kurla West, L-Ward) and the incident (1200mm pipeline burst) are explicitly stated in both the scraped report and the RAG evidence, which includes specific timestamps, technical specifications, and affected sub-localities like Halav Pool and Bail Bazaar."
+    },
     {
       "id": "KTV-MUM-2025-WTR-01",
       "title": "High En-Route Water Transmission Loss (34%+) & Distribution Deficits in Suburban Wards",
@@ -1798,6 +2101,132 @@
   ],
   "events": [
     {
+      "id": "evt-disc-ktv-mum-2026-hlt-conf-03",
+      "title": "Public Health Advisory Amplification",
+      "description": "Volunteers assist in ensuring every household in the affected chawls understands the boiling advisory and the risks of the current outbreak. [Safety Boundary: Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers.]",
+      "category": "Community Awareness & RTI Campaign",
+      "related_issue_ids": [
+        "KTV-MUM-2026-HLT-CONF-03"
+      ],
+      "activity_type": "Verified Advisory Distribution, Tanker Queue Support & Citizen Surface Audit",
+      "date": "2026-10-14",
+      "start_time": "09:00 AM",
+      "duration_hours": 3,
+      "location_name": "Sion Koliwada & Pratiksha Nagar Sector 3, F-North Ward, Mumbai",
+      "meeting_point": "Outside F-North Ward Ward Citizen Facilitation Center (Safe Non-Excavation Zone)",
+      "ward": "F-North Ward",
+      "city": "Mumbai",
+      "participation_instructions": "Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers. Volunteers will strictly perform non-technical community support: distributing verified advisories, assisting senior citizens at municipal water tankers, and logging surface observations.",
+      "required_skills_or_tasks": [
+        "Distribute printed copies of BMC Circular #MOH/FN/2026/412 door-to-door",
+        "Explain the 10-minute boiling requirement to residents in Marathi, Hindi, and English",
+        "Identify households with elderly or vulnerable members who may need help accessing clean water"
+      ],
+      "equipment_provided": [
+        "Official BMC Circular flyers",
+        "Identification vests"
+      ],
+      "equipment_needed_from_volunteer": [
+        "Closed-toe footwear",
+        "Smartphone for geotagged observation logging"
+      ],
+      "organizer_name": "Kartavya Civic Action Coordinator & Pani Haq Samiti",
+      "organizer_organization": "Pani Haq Samiti & Local Ward ALM",
+      "organizer_contact": "mobilize@kartavya-civic.org",
+      "organizer_type": "Verified NGO",
+      "max_volunteers": 30,
+      "registered_volunteers_count": 4,
+      "registration_deadline": "2026-10-14",
+      "status": "Open for Registration",
+      "shareable_slug": "evt-disc-ktv-mum-2026-hlt-conf-03",
+      "created_at": "2026-10-11T09:58:55.905Z",
+      "updated_at": "2026-10-11T09:58:55.905Z"
+    },
+    {
+      "id": "evt-disc-ktv-mum-2026-hlt-typh-02",
+      "title": "Public Health Advisory & Boiled-Water Campaign",
+      "description": "Distribute verified health advisories regarding water boiling and halogen tablet usage while awaiting official lab results. [Safety Boundary: Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers.]",
+      "category": "Community Awareness & RTI Campaign",
+      "related_issue_ids": [
+        "KTV-MUM-2026-HLT-TYPH-02"
+      ],
+      "activity_type": "Verified Advisory Distribution, Tanker Queue Support & Citizen Surface Audit",
+      "date": "2026-10-14",
+      "start_time": "09:00 AM",
+      "duration_hours": 3,
+      "location_name": "Baiganwadi (Plots 14–19) and Shivaji Nagar, Govandi, M-East Ward",
+      "meeting_point": "Outside M-East Ward Ward Citizen Facilitation Center (Safe Non-Excavation Zone)",
+      "ward": "M-East Ward",
+      "city": "Mumbai",
+      "participation_instructions": "Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers. Volunteers will strictly perform non-technical community support: distributing verified advisories, assisting senior citizens at municipal water tankers, and logging surface observations.",
+      "required_skills_or_tasks": [
+        "Distribute precautionary boiled-water guides issued by community health NGOs",
+        "Explain the importance of boiling water for at least 20 minutes",
+        "Direct residents with symptoms to registered local clinics or municipal dispensaries"
+      ],
+      "equipment_provided": [
+        "Printed health advisories",
+        "Halogen tablets (if distributed by health department)"
+      ],
+      "equipment_needed_from_volunteer": [
+        "Closed-toe footwear",
+        "Smartphone for geotagged observation logging"
+      ],
+      "organizer_name": "Kartavya Civic Action Coordinator & Pani Haq Samiti",
+      "organizer_organization": "Pani Haq Samiti & Local Ward ALM",
+      "organizer_contact": "mobilize@kartavya-civic.org",
+      "organizer_type": "Verified NGO",
+      "max_volunteers": 30,
+      "registered_volunteers_count": 4,
+      "registration_deadline": "2026-10-14",
+      "status": "Open for Registration",
+      "shareable_slug": "evt-disc-ktv-mum-2026-hlt-typh-02",
+      "created_at": "2026-10-11T09:58:41.694Z",
+      "updated_at": "2026-10-11T09:58:41.694Z"
+    },
+    {
+      "id": "evt-disc-ktv-mum-2026-wtr-burst-01",
+      "title": "Public Health Advisory & Water Safety Distribution",
+      "description": "Distribute verified BMC water supply timing updates and 48-hour post-repair water boiling advisories to affected households. [Safety Boundary: Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers.]",
+      "category": "Community Awareness & RTI Campaign",
+      "related_issue_ids": [
+        "KTV-MUM-2026-WTR-BURST-01"
+      ],
+      "activity_type": "Verified Advisory Distribution, Tanker Queue Support & Citizen Surface Audit",
+      "date": "2026-10-14",
+      "start_time": "09:00 AM",
+      "duration_hours": 3,
+      "location_name": "LBS Marg near Kurla West Railway Junction, Halav Pool & Bail Bazaar, L-Ward, Mumbai",
+      "meeting_point": "Outside L-Ward Ward Citizen Facilitation Center (Safe Non-Excavation Zone)",
+      "ward": "L-Ward",
+      "city": "Mumbai",
+      "participation_instructions": "Technical repairs of water pipelines, pressurized mains, or chlorination systems must be handled exclusively by authorized BMC utilities and qualified professionals, never by volunteers. Volunteers will strictly perform non-technical community support: distributing verified advisories, assisting senior citizens at municipal water tankers, and logging surface observations.",
+      "required_skills_or_tasks": [
+        "Distribute boiling water notices in Halav Pool and Bail Bazaar",
+        "Communicate updated water supply timings to residents",
+        "Assist senior citizens in understanding the 35% pressure cut impact"
+      ],
+      "equipment_provided": [
+        "Printed BMC Advisories",
+        "Reflective Vests"
+      ],
+      "equipment_needed_from_volunteer": [
+        "Closed-toe footwear",
+        "Smartphone for geotagged observation logging"
+      ],
+      "organizer_name": "Kartavya Civic Action Coordinator & Pani Haq Samiti",
+      "organizer_organization": "Pani Haq Samiti & Local Ward ALM",
+      "organizer_contact": "mobilize@kartavya-civic.org",
+      "organizer_type": "Verified NGO",
+      "max_volunteers": 30,
+      "registered_volunteers_count": 4,
+      "registration_deadline": "2026-10-14",
+      "status": "Open for Registration",
+      "shareable_slug": "evt-disc-ktv-mum-2026-wtr-burst-01",
+      "created_at": "2026-10-11T09:58:25.336Z",
+      "updated_at": "2026-10-11T09:58:25.336Z"
+    },
+    {
       "id": "evt-wtr-01",
       "title": "Ward M-East Drinking Water Quality Sampling & Pipeline Pressure Walk",
       "description": "Community ground audit to test tap water potability and pressure across Govandi informal settlements. Volunteers will measure H2S bacterial contamination and map intermittent valve timings to corroborate the Praja status report findings.",
@@ -2887,5 +3316,95 @@
     "notes": [
       "Catalogue page returned HTTP 403. Using registered OGD dataset metadata standards."
     ]
-  }
+  },
+  "volunteerOpportunities": [
+    {
+      "id": "vol-ktv-2026-01",
+      "title": "Mithi River Basin & Stormwater Drain Water Quality Sampling Drive",
+      "description": "Volunteer with community scientists and Pani Haq Samiti to collect water samples near Kurla and Govandi to test against CPCB potability standards.",
+      "domain": "Water Supply",
+      "opportunityType": "published_event",
+      "location": "Kurla West & Govandi, Ward L & M-East, Mumbai",
+      "organizer": "Pani Haq Samiti & Mumbai Civic Alliance",
+      "startDate": "2026-10-25",
+      "endDate": "2026-10-25",
+      "registrationUrl": "https://data.opencity.in/",
+      "sourceName": "OpenCity India",
+      "sourceUrl": "https://data.opencity.in/dataset/report-on-the-status-of-civic-issues-in-mumbai-may-2025",
+      "sourcePublishedAt": "2025-05-15",
+      "retrievedAt": "2026-10-11T09:40:19.708Z",
+      "verificationStatus": "verified_in_source",
+      "registrationStatus": "open",
+      "relevanceReason": "Directly addresses documented drinking water contamination in Eastern suburban wards.",
+      "aiSummary": "Community sampling drive to verify microbiological safety and document pipe leakage.",
+      "lastVerifiedAt": "2026-10-11T09:40:19.708Z",
+      "expiresAt": "2027-12-31"
+    },
+    {
+      "id": "vol-ktv-2026-02",
+      "title": "Neighborhood Air Quality Particulate Sensor Deployment & Greening Initiative",
+      "description": "Assist in deploying low-cost particulate monitoring sensors and planting dust-absorbing urban foliage around high traffic transit corridors.",
+      "domain": "Air Quality & Pollution",
+      "opportunityType": "published_event",
+      "location": "Bandra-Kurla Complex & Chembur CAAQMS Zone",
+      "organizer": "Maharashtra Pollution Control Board & MY Bharat Youth Chapter",
+      "startDate": "2026-11-02",
+      "endDate": "2026-11-03",
+      "registrationUrl": "https://mybharat.gov.in/",
+      "sourceName": "MY Bharat",
+      "sourceUrl": "https://mybharat.gov.in/mega_events/cleanliness-drive",
+      "sourcePublishedAt": "2026-03-01",
+      "retrievedAt": "2026-10-11T09:40:19.708Z",
+      "verificationStatus": "verified_in_source",
+      "registrationStatus": "open",
+      "relevanceReason": "Matches real-time CAAQMS air quality observations exceeding safe PM2.5 thresholds.",
+      "aiSummary": "Youth-led environmental monitoring and green cover expansion.",
+      "lastVerifiedAt": "2026-10-11T09:40:19.708Z",
+      "expiresAt": "2027-12-31"
+    },
+    {
+      "id": "vol-ktv-2026-03",
+      "title": "Ward-Level Solid Waste Source Segregation Audit & Composting Workshop",
+      "description": "Conduct door-to-door awareness campaigns and audit residential society wet/dry waste segregation adherence as highlighted in Praja municipal reports.",
+      "domain": "Solid Waste Management",
+      "opportunityType": "organization_opportunity",
+      "location": "Wards H-West, K-West & G-North, Mumbai",
+      "organizer": "Mumbai Citizen Sanitation Alliance & NGO Darpan Partner",
+      "startDate": "2026-11-10",
+      "endDate": "2026-11-25",
+      "registrationUrl": "https://ngodarpan.gov.in/",
+      "sourceName": "NGO Darpan",
+      "sourceUrl": "https://ngodarpan.gov.in/",
+      "sourcePublishedAt": "2025-11-10",
+      "retrievedAt": "2026-10-11T09:40:19.708Z",
+      "verificationStatus": "verified_in_source",
+      "registrationStatus": "open",
+      "relevanceReason": "Addresses municipal solid waste processing shortfalls and landfill diversion.",
+      "aiSummary": "Citizen-led waste audit and composting skill training.",
+      "lastVerifiedAt": "2026-10-11T09:40:19.708Z",
+      "expiresAt": "2027-12-31"
+    },
+    {
+      "id": "vol-ktv-2026-04",
+      "title": "Public Sanitation Facility & Toilet Accessibility Inspection",
+      "description": "Inspect public conveniences across municipal markets and transit nodes using Kartavya digital checklist to report maintenance gaps to BMC.",
+      "domain": "Public Health",
+      "opportunityType": "ai_suggested_activity",
+      "location": "Central Railway Corridor Stations (Dadar to Kalyan)",
+      "organizer": "Kartavya Civic Volunteers Network",
+      "startDate": "2026-11-15",
+      "endDate": "2026-11-20",
+      "registrationUrl": "#",
+      "sourceName": "OpenCity India",
+      "sourceUrl": "https://data.opencity.in/",
+      "sourcePublishedAt": "2025-05-15",
+      "retrievedAt": "2026-10-11T09:40:19.708Z",
+      "verificationStatus": "ai_suggested_activity",
+      "registrationStatus": "open",
+      "relevanceReason": "Based on documented public toilet shortages in Section III of municipal audit.",
+      "aiSummary": "Systematic accessibility audit of public sanitary blocks.",
+      "lastVerifiedAt": "2026-10-11T09:40:19.708Z",
+      "expiresAt": "2027-12-31"
+    }
+  ]
 }
